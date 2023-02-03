@@ -1,0 +1,71 @@
+<template>
+    <c-custom-toast-message></c-custom-toast-message>
+    <!--<h2 class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center">Action Buttons</h2>-->
+    <!--<button class="slds-button slds-button_brand slds-float_right" onclick={handleCreate} >Create</button>-->
+    <br />
+    <!--<lightning-textarea name="slackjson" label="Slack View JSON" onchange={handleJSONTextAreaChange} placeholder="Enter JSON code"></lightning-textarea>-->
+    <!--add row-->
+    <div class="slds-box">
+        <div class="slds-p-around_medium">
+            <lightning-textarea class="action" name="slaceAlert" rows=10 label="Response Message"
+                onchange={handleTextAreaChange} placeholder="Enter Response Message"
+                style='--sds-c-textarea-sizing-min-height:20px;' value={slaceAlert}></lightning-textarea>
+        </div>
+        <div class="slds-card slds-scrollable">
+            <table class="slds-table slds-table_bordered slds-no-row-hover slds-table_cell-buffer" role="grid">
+                <thead>
+                    <tr>
+                        <th scope="col" height="22" style="width: 3rem">SNo.</th>
+                        <th scope="col" height="22">Action</th>
+                        <th scope="col" height="22">Label</th>
+                        <th scope="col" height="22">Path</th>
+                        <th scope="col" height="22">View</th>
+
+                        <th scope="col" height="22" style="width: 3rem">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={oldJsonData} for:item="rec" for:index="i">
+                        <tr key={rec} class="slds-hint-parent">
+                            <td style="font-weight: bold">
+                                <lightning-formatted-number value={i}></lightning-formatted-number>.
+                            </td>
+                            <td>
+                                <lightning-input type="text" variant="label-hidden" label="" data-index={i}
+                                    name="Action" value={rec.Action} onchange={handleInputChange}
+                                    onblur={handleBlurChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input type="text" variant="label-hidden" label="" data-index={i} name="Label"
+                                    value={rec.Label} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input type="text" variant="label-hidden" label="" data-index={i} name="Path"
+                                    value={rec.Path} onchange={handleInputChange}></lightning-input>
+                            </td>
+
+                            <td>
+                                <lightning-input type="text" variant="label-hidden" label="" data-index={i} name="View"
+                                    value={rec.View} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-button-icon icon-name="utility:add" alternative-text="Add" title="Add"
+                                    name={i} onclick={addNewRow}></lightning-button-icon>
+
+                                &nbsp;
+                                <lightning-button-icon if:true={isShowDeleteButton} icon-name="utility:delete"
+                                    alternative-text="Remove" title="Remove" name={rec.index} data-index={i}
+                                    onclick={removeRow}></lightning-button-icon>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<div class="slds-p-around_large">
+            <button class="slds-button slds-button_brand slds-align_absolute-center"
+                onclick={handleSubmit}>Submit</button>
+        </div>-->
+    </div>
+</template>

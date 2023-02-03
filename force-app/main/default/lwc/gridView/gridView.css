@@ -1,0 +1,19 @@
+body {
+    background: rgb(255, 255, 255);
+}
+
+.box {
+    transition: box-shadow .3s;
+    width: 290px;
+    height: 190px;
+    margin: 30px;
+    border-radius: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    background: rgb(241, 241, 241);
+    float: left;
+
+}
+
+.box:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}

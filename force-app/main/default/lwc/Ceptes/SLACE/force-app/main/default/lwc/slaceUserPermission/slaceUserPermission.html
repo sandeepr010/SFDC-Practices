@@ -1,0 +1,225 @@
+<template>
+    <div class="slds-form-element slds-p-horizontal_small">
+        <label class="slds-form-element__label" for="combobox-id-14" id="combobox-label-id-138">
+            <div style="color:black; font-size:15px"><lightning-icon icon-name="utility:user"
+                    size="small"></lightning-icon>&nbsp; Users
+            </div>
+        </label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value"
+                            id="combobox-id-15" aria-autocomplete="list" aria-controls="listbox-id-11"
+                            aria-expanded="true" aria-haspopup="listbox" role="combobox" placeholder="User Search..."
+                            value={toNull} oninput={userFilter} onclick={optionValidation} />
+                    </div>
+                    <template if:true={search}>
+                        <div id="listbox-id-12" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                            role="listbox">
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                <li role="presentation" class="slds-listbox__item">
+                                    <template for:each={updatedMap} for:item="itrate" for:index="i">
+                                        <div key={itrate} data-id={itrate.name} data-index={i}
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option" onclick={userOptionSelect}>
+                                            <lightning-icon icon-name={itrate.icon} size="x-small"
+                                                class="slds-p-horizontal_small slds-p-vertical_xx-small"></lightning-icon>
+                                            <span class="slds-media__body ">
+                                                <span class="slds-truncate" title="All Opportunities">
+                                                    <span>{itrate.name}</span>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </template>
+                                </li>
+                            </ul>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <template if:true={userSelectedOptionView}>
+                <div class="slds-listbox_selection-group slds-scrollable">
+                    <div class="slds-text-longform">
+                        <template for:each={userInputList} for:item="user" for:index="i">
+                            <span key={user} class="slds-pill" role="option" aria-selected="true">
+                                <span class="slds-pill__label" title="Burlington Textiles Corp of America">{user}</span>
+                                <lightning-icon icon-name="utility:close" size="xx-small" data-id={user} data-index="i"
+                                    onclick={userDelete}></lightning-icon>
+                            </span>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <div class="slds-form-element slds-p-horizontal_small slds-p-top_large">
+        <label class="slds-form-element__label" for="combobox-id-14" id="combobox-label-id-139">
+            <div style="color:black; font-size:15px"><lightning-icon icon-name="utility:profile"
+                    size="small"></lightning-icon>&nbsp; Profile
+            </div>
+        </label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <button type="button" class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                            aria-labelledby="combobox-label-id-131 combobox-id-6-selected-value"
+                            id="combobox-id-6-selected-value" aria-controls="listbox-id-7" aria-expanded="true"
+                            aria-haspopup="listbox" onclick={profileSearch}>
+                            <span class="slds-truncate" id="combobox-value-id-96">{profileInp}</span>
+                        </button>
+                        <template if:true={profileDropDown}>
+                            <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <li role="presentation" class="slds-listbox__item">
+                                        <template for:each={profileMap} for:item="itrate" for:index="i">
+                                            <div key={itrate.name} aria-checked="true" id={i} data-id={itrate.name}
+                                                data-index={i}
+                                                class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected"
+                                                role="option" onclick={profileClick}>
+                                                <lightning-icon icon-name={itrate.icon} size="x-small"
+                                                    class="slds-p-horizontal_small slds-p-vertical_xx-small"></lightning-icon>
+                                                <span class="slds-media__body">
+                                                    <span class="slds-truncate" title="Accounts">{itrate.name}</span>
+                                                </span>
+                                            </div>
+                                        </template>
+                                    </li>
+                                </ul>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <template if:true={profileSelectValidate}>
+                <div class="slds-listbox_selection-group slds-scrollable">
+                    <div class="slds-text-longform">
+                        <template for:each={profileSelectedList} for:item="itrate" for:index='i'>
+                            <span key={itrate} class="slds-pill" role="option" aria-selected="true">
+                                <span class="slds-pill__label"
+                                    title="Burlington Textiles Corp of America">{itrate}</span>
+                                <lightning-icon icon-name="utility:close" size="xx-small" data-id={itrate}
+                                    data-index={i} onclick={profileRemove}></lightning-icon>
+                            </span>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <div class="slds-form-element slds-p-horizontal_small slds-p-top_large">
+        <label class="slds-form-element__label" for="combobox-id-14" id="combobox-label-id-141">
+            <div style="color:black; font-size:15px"><lightning-icon icon-name="utility:groups"
+                    size="small"></lightning-icon>&nbsp; Groups
+            </div>
+        </label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <button type="button" class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                            aria-labelledby="combobox-label-id-131 combobox-id-6-selected-value"
+                            id="combobox-id-7-selected-value" aria-controls="listbox-id-7" aria-expanded="true"
+                            aria-haspopup="listbox" onclick={groupSearch}>
+                            <span class="slds-truncate" id="combobox-value-id-97">{groupInp}</span>
+                        </button>
+                        <template if:true={groupDropDown}>
+                            <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <li role="presentation" class="slds-listbox__item">
+                                        <template for:each={groupMap} for:item="itrate" for:index="i">
+                                            <div key={itrate.name} aria-checked="true" id={i} data-id={itrate.name}
+                                                data-index={i}
+                                                class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected"
+                                                role="option" onclick={groupClick}>
+                                                <lightning-icon icon-name={itrate.icon} size="x-small"
+                                                    class="slds-p-horizontal_small slds-p-vertical_xx-small"></lightning-icon>
+                                                <span class="slds-media__body">
+                                                    <span class="slds-truncate" title="Accounts">{itrate.name}</span>
+                                                </span>
+                                            </div>
+                                        </template>
+                                    </li>
+                                </ul>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <template if:true={groupSelectValidate}>
+                <div class="slds-listbox_selection-group slds-scrollable">
+                    <div class="slds-text-longform">
+                        <template for:each={groupSelectedList} for:item="itrate" for:index='i'>
+                            <span key={itrate} class="slds-pill" role="option" aria-selected="true">
+                                <span class="slds-pill__label"
+                                    title="Burlington Textiles Corp of America">{itrate}</span>
+                                <lightning-icon icon-name="utility:close" size="xx-small" data-id={itrate}
+                                    data-index={i} onclick={groupRemove}></lightning-icon>
+                            </span>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <div class="slds-form-element slds-p-horizontal_small slds-p-top_large slds-p-bottom_large">
+        <label class="slds-form-element__label" for="combobox-id-14" id="combobox-label-id-140">
+            <div style="color:black; font-size:15px"><lightning-icon icon-name="utility:user_role"
+                    size="small"></lightning-icon>&nbsp; Role
+            </div>
+        </label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <button type="button" class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                            aria-labelledby="combobox-label-id-131 combobox-id-6-selected-value"
+                            id="combobox-id-8-selected-value" aria-controls="listbox-id-7" aria-expanded="true"
+                            aria-haspopup="listbox" onclick={roleSearch}>
+                            <span class="slds-truncate" id="combobox-value-id-9">{roleInp}</span>
+                        </button>
+                        <template if:true={roleDropDown}>
+                            <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <li role="presentation" class="slds-listbox__item">
+                                        <template for:each={roleMap} for:item="itrate" for:index="i">
+                                            <div key={itrate.name} aria-checked="true" id={i} data-id={itrate.name}
+                                                data-index={i}
+                                                class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected"
+                                                role="option" onclick={roleClick}>
+                                                <lightning-icon icon-name={itrate.icon} size="x-small"
+                                                    class="slds-p-horizontal_small slds-p-vertical_xx-small"></lightning-icon>
+                                                <span class="slds-media__body">
+                                                    <span class="slds-truncate" title="Accounts">{itrate.name}</span>
+                                                </span>
+                                            </div>
+                                        </template>
+                                    </li>
+                                </ul>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <template if:true={roleSelectValidate}>
+                <div class="slds-listbox_selection-group slds-scrollable">
+                    <div class="slds-text-longform">
+                        <template for:each={roleSelectedList} for:item="itrate" for:index='i'>
+                            <span key={itrate} class="slds-pill" role="option" aria-selected="true">
+                                <span class="slds-pill__label"
+                                    title="Burlington Textiles Corp of America">{itrate}</span>
+                                <lightning-icon icon-name="utility:close" size="xx-small" data-id={itrate}
+                                    data-index={i} onclick={roleRemove}></lightning-icon>
+                            </span>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <!--<div class="slds-p-top_x-large slds-p-bottom_medium slds-align_absolute-center">
+        <lightning-button variant="brand" label="Submit" title="Submit" onclick={handleSubmit}
+            class="slds-m-left_x-small"></lightning-button>
+    </div>-->
+</template>

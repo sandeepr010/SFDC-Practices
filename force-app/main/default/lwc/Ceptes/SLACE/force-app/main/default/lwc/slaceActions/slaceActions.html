@@ -1,0 +1,66 @@
+<template>
+    <div class="slds-modal__header">
+        <h1 id="header43" class="slds-text-heading_medium">{heading}</h1>
+    </div>
+    <div class="slds-modal__content slds-grow slds-p-around_medium" id="modal-content-id-1">
+        <template if:true={updateSlaceAction}>
+            <c-slace-update-sale-action record-id={recordId} reid={recordId}></c-slace-update-sale-action>
+        </template>
+        <template if:true={manageSlackAction}>
+            <c-slace-update-actions record-id={recordId}></c-slace-update-actions>
+        </template>
+        <template if:true={UserAction}>
+            <c-slace-user-permission record-id={recordId} onuser={spinnerMethod}></c-slace-user-permission>
+        </template>
+    </div>
+    <div class="slds-modal__footer slds-grid slds-grid_align-spread slds-float">
+        <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+            onclick={saveMethod}>Submit</button>
+        <div class="slds-progress slds-progress_shade">
+            <ol class="slds-progress__list">
+                <template for:each={pathAlign} for:item="itrate" for:index="i">
+                    <li key={itrate} class={itrate.status}>
+                        <template if:true={itrate.active}>
+                            <button class="slds-button slds-progress__marker">
+                                <span class="slds-assistive-text">{itrate.name}</span>
+                            </button>
+                        </template>
+                        <template if:false={itrate.active}>
+                            <template if:true={itrate.complete}>
+                                <button
+                                    class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon"
+                                    title="Step 1 - Completed">
+                                    <lightning-icon icon-name="utility:success" alternative-text="Success!"
+                                        variant="Success" title="success variant xx-small"
+                                        size="xx-small"></lightning-icon>
+                                    <span class="slds-assistive-text">{itrate.name}</span>
+                                </button>
+                            </template>
+                            <template if:false={itrate.complete}>
+                                <button class="slds-button slds-progress__marker">
+                                    <span class="slds-assistive-text">{itrate.name}</span>
+                                </button>
+                            </template>
+                        </template>
+                    </li>
+                </template>
+            </ol>
+            <div class="slds-progress-bar slds-progress-bar_x-small" aria-valuemin="0" aria-valuemax="100"
+                aria-valuenow={vol} aria-label="" role="progressbar">
+                <template if:true={half}>
+                    <span class="slds-progress-bar__value" style="width:50%">
+                        <span class="slds-assistive-text">Manage Slack Action</span>
+                    </span>
+                </template>
+                <template if:true={full}>
+                    <span class="slds-progress-bar__value" style="width:100%">
+                        <span class="slds-assistive-text">Slace Action Permission</span>
+                    </span>
+                </template>
+            </div>
+        </div>
+        <template if:true={nextDisable}>
+            <button class="slds-button slds-button_brand" onclick={nextMethod}>Next</button>
+        </template>
+    </div>
+</template>

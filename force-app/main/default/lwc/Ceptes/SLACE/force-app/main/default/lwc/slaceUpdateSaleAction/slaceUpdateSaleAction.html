@@ -1,0 +1,248 @@
+<template>
+    <c-custom-toast-message></c-custom-toast-message>
+    <div class="slds-box slds-theme_default">
+        <!--<h2 class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center">Update Slace Action</h2>-->
+        <!--<button class="slds-button slds-button_brand slds-float_right" onclick={handleCreate} >Create</button>-->
+        <template if:true={showCombo}>
+            <template if:true={TypeOptions}>
+                <lightning-combobox class="slds-p-around_x-small" name="slackaction" label="Slack Action" value={value}
+                    placeholder="-Select-" options={TypeOptions} onchange={handleChange}>
+                </lightning-combobox>
+            </template>
+            <br />
+        </template>
+        <div class="slds-p-around_x-small slds-p-bottom_medium ">
+            <h1 class="slds-align_absolute-center">SELECT TYPE</h1>
+            <div class="slds-box slds-align_absolute-center">
+                <template for:each={radioOptions} for:item="item">
+                    <fieldset key={item.value} style="display: block; float: left;">
+                        <div class="slds-form-element__control">
+                            <span class="slds-radio">
+                                <input name="radioGroup" id={item.value} type="radio" value={item.value}
+                                    onchange={handleRadioChange} disabled={item.disable}/>
+                                <label class="slds-radio__label" for={item.value}>
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label">{item.label}</span>
+                                </label>
+                            </span>
+                        </div>
+                    </fieldset>
+                </template>
+                <br />
+            </div>
+        </div>
+        <template if:true={yamlFieldValue}>
+            <lightning-textarea name="yaml" rows=10 label="Slack View YAML" onchange={handleTextAreaChange}
+                placeholder="Enter YAML code" style='--sds-c-textarea-sizing-min-height:200px;'
+                value={Yaml}></lightning-textarea>
+        </template>
+        <template if:true={fieldSetFieldValue}>
+            <div class="slds-form-element slds-p-horizontal_small slds-p-top_medium">
+                <label class="slds-form-element__label" for="combobox-id-14" id="combobox-label-id-139">
+                    <div style="color:black; font-size:15px">&nbsp; {fieldSetLabel}
+                    </div>
+                </label>
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                role="none">
+                                <button type="button"
+                                    class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                                    aria-labelledby="combobox-label-id-131 combobox-id-6-selected-value"
+                                    id="combobox-id-6-selected-value" aria-controls="listbox-id-7" aria-expanded="true"
+                                    aria-haspopup="listbox" onclick={fieldSetClick}>
+                                    <span class="slds-truncate" id="combobox-value-id-96">{fieldSetValue}</span>
+                                </button>
+                                <template if:true={fieldSetDropDown}>
+                                    <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                                        role="listbox">
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                            <li role="presentation" class="slds-listbox__item">
+                                                <template for:each={fieldSet} for:item="itrate" for:index="i">
+                                                    <div key={itrate} aria-checked="true" id={i} data-id={itrate}
+                                                        data-index={i}
+                                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected"
+                                                        role="option" onclick={fieldSetOption}>
+                                                        <span class="slds-media__body">
+                                                            <span class="slds-truncate" title="Accounts">{itrate}</span>
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:true={jsonFieldValue}>
+            <!--<lightning-textarea name="slackjson" label="Slack View JSON" onchange={handleJSONTextAreaChange} placeholder="Enter JSON code"></lightning-textarea>-->
+            <!--add row-->
+            <table class="slds-table slds-table_bordered slds-no-row-hover slds-table_cell-buffer" role="grid">
+                <thead>
+                    <tr>
+                        <th scope="col" height="22" style="width: 3rem">SNo.</th>
+                        <th scope="col" height="22">Label</th>
+                        <th scope="col" height="22">Name</th>
+                        <th scope="col" height="22">Data Type</th>
+                        <th scope="col" height="22">Required</th>
+                        <th scope="col" height="22">Query Param</th>
+                        <th scope="col" height="22" style="width: 3rem">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={json} for:item="rec" for:index="i">
+                        <tr key={rec} class="slds-hint-parent">
+                            <td style="font-weight: bold">
+                                <lightning-formatted-number value={i}></lightning-formatted-number>.
+                            </td>
+                            <td>
+                                <lightning-input type="text" variant="label-hidden" label="" data-index={i}
+                                    name="Label" value={rec.Label} onchange={handleInputChange}
+                                    onblur={handleBlurChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input type="text" variant="label-hidden" label="" data-index={i}
+                                    name="Name" value={rec.Path} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-combobox name="Type" label="" value={rec.Type} variant="label-hidden"
+                                data-index={i} placeholder="-Select-" options={DataTypeOptions}
+                                    onchange={handleInputChange}>
+                                </lightning-combobox>
+                            </td>
+                            <td>
+                                <lightning-input type="checkbox" class="slds-align_absolute-center"
+                                    variant="label-hidden" label="" data-index={i} name="Required"
+                                    checked={rec.Required} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-input type="checkbox" class="slds-align_absolute-center"
+                                    variant="label-hidden" label="" data-index={i} name="QueryParam"
+                                    checked={rec.QueryParam} onchange={handleInputChange}></lightning-input>
+                            </td>
+                            <td>
+                                <lightning-button-icon icon-name="utility:add" alternative-text="Add" title="Add"
+                                    name={i} onclick={addNewRow}></lightning-button-icon>
+                                &nbsp;
+                                <lightning-button-icon if:true={jsonShowDeleteButton} icon-name="utility:delete"
+                                    alternative-text="Remove" title="Remove" name={i} data-index={i}
+                                    onclick={removeRow}></lightning-button-icon>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+        <template if:true={quickActionValue}>
+            <div class="slds-form-element slds-p-horizontal_small slds-p-top_medium">
+                <label class="slds-form-element__label" for="combobox-id-14" id="combobox-label-id-001">
+                    <div style="color:black; font-size:15px">&nbsp; {quickActionLabel}
+                    </div>
+                </label>
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                role="none">
+                                <button type="button"
+                                    class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                                    aria-labelledby="combobox-label-id-131 combobox-id-6-selected-value"
+                                    id="combobox-id-1-selected-value" aria-controls="listbox-id-7" aria-expanded="true"
+                                    aria-haspopup="listbox" onclick={quickActionClick}>
+                                    <span class="slds-truncate" id="combobox-value-id-01">{quickActionFieldValue}</span>
+                                </button>
+                                <template if:true={quickActionDropDown}>
+                                    <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                                        role="listbox">
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                            <li role="presentation" class="slds-listbox__item">
+                                                <template for:each={quickActions} for:item="itrate" for:index="i">
+                                                    <div key={itrate} aria-checked="true" id={i} data-id={itrate}
+                                                        data-index={i}
+                                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected"
+                                                        role="option" onclick={quickActionOption}>
+                                                        <span class="slds-media__body">
+                                                            <span class="slds-truncate" title="Accounts">{itrate}</span>
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:true={listViewValue}>
+            <div class="slds-form-element slds-p-horizontal_small slds-p-top_medium">
+                <label class="slds-form-element__label" for="combobox-id-14" id="combobox-label-id-002">
+                    <div style="color:black; font-size:15px">&nbsp; {listviewLabel}
+                    </div>
+                </label>
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                role="none">
+                                <button type="button"
+                                    class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                                    aria-labelledby="combobox-label-id-131 combobox-id-6-selected-value"
+                                    id="combobox-id-2-selected-value" aria-controls="listbox-id-7" aria-expanded="true"
+                                    aria-haspopup="listbox" onclick={listViewClick}>
+                                    <span class="slds-truncate" id="combobox-value-id-02">{listViewFieldValue}</span>
+                                </button>
+                                <template if:true={listViewDropDown}>
+                                    <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                                        role="listbox">
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                            <li role="presentation" class="slds-listbox__item">
+                                                <template for:each={listView} for:item="itrate" for:index="i">
+                                                    <div key={itrate} aria-checked="true" id={i} data-id={itrate}
+                                                        data-index={i}
+                                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected"
+                                                        role="option" onclick={listViewOption}>
+                                                        <span class="slds-media__body">
+                                                            <span class="slds-truncate" title="Accounts">{itrate}</span>
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:true={messageFieldValue}>
+            <lightning-textarea name="MessageHeader" rows=10 label="Message Header" onchange={handleTextAreaChange}
+                placeholder="Enter Message Header" style='--sds-c-textarea-sizing-min-height:20px;'
+                value={messageHeader}></lightning-textarea>
+            <lightning-textarea name="MessageBody" rows=10 label="Message Body" onchange={handleTextAreaChange}
+                placeholder="Enter Message Body" style='--sds-c-textarea-sizing-min-height:20px;'
+                value={messageBody}></lightning-textarea>
+        </template>
+        <!--<template if:true={slaceAlertFieldValue}>
+            <lightning-textarea name="slaceAlert" rows=10 label="Response Message" onchange={handleTextAreaChange}
+                placeholder="Enter Response Message" style='--sds-c-textarea-sizing-min-height:20px;'
+                value={slaceAlert}></lightning-textarea>
+        </template>-->
+
+        <!--<template if:true={submitButton}>
+            <div class="slds-p-around_large">
+                <button class="slds-button slds-button_brand slds-align_absolute-center "
+                    onclick={handleSubmit}>Submit</button>
+            </div>
+        </template>-->
+    </div>
+</template>

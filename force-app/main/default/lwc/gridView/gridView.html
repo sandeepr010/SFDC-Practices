@@ -1,0 +1,55 @@
+<template>
+  <template if:true={homePage}>
+    <div class="slds-p-around_large slds-align_absolute-right">
+      <lightning-combobox name="progress" label="Ratings" value={selectedValue} placeholder="Select Rating"
+        options={options} onchange={onOptionSelect} size="5">
+      </lightning-combobox>
+    </div>
+    <div class="slds-p-horizontal_x-small slds-p-top_large">
+      <lightning-layout class="slds-grid slds-wrap">
+        <template for:each={accountData} for:item="feas" for:index="i">
+          <lightning-layout-item size="3" class={feas} data-id={feas.Id} data-index={i} key={feas.Id}
+            onclick={recordClick}>
+            <div class="box">
+              <!--<div style={feas.topColour} class="slds-card box ">-->
+              <div style={feas.fullColour}>
+                <div class="slds-p-around_medium">
+                  <p> <b>Data {i}</b></p>
+                </div>
+              </div>
+              <div class="slds-p-around_medium">
+                <p style="color: rgb(52, 48, 48);font-size: 12px;display:inline;float:left;font-weight:bold">ID : </p>
+                <p style="color: rgb(52, 48, 48);font-size: 12px;display:inline;float:right;font-weight:bold">{feas.Id}
+                </p><br>
+                <p style="color: rgb(52, 48, 48);font-size: 12px;display:inline;float:left;font-weight:bold">Name</p>
+                <p style="color: rgb(52, 48, 48);font-size: 12px;display:inline;float:right;font-weight:bold">
+                  {feas.Name}
+                </p><br>
+                <p style="color: rgb(52, 48, 48);font-size: 12px;display:inline;float:left;font-weight:bold">Rating</p>
+                <p style="color: rgb(52, 48, 48);font-size: 12px;display:inline;float:right;font-weight:bold">
+                  {feas.Rating}</p><br>
+                <!--<div  style="position: absolute;background-color:#e9b8cb;width:90%;text-align:center;margin-top:50px auto" class="modal"  >-->
+                <div if:true={feas.buttonVal}>
+                  <!--<lightning-icon
+                icon-name="utility:warning"
+                size="xx-small"
+                class="slds-float--left "
+                variant="error">
+                </lightning-icon>
+                You have selected a non recommended option, an approval workflow will be generated<br><br><br>-->
+                  <p> <br> <lightning-button variant="Brand-Outline" label="Show Details" onclick={recordDetailPage}
+                      style="display: grid; width: 50%"></lightning-button></p>
+                </div>
+                <!--</div>-->
+              </div>
+              <!--</div>-->
+            </div>
+          </lightning-layout-item>
+        </template>
+      </lightning-layout>
+    </div>
+  </template>
+  <template if:true={detailPage}>
+    <c-grid-View-Detail record-id={id} onhome={home}></c-grid-View-Detail>
+  </template>
+</template>
